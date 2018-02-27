@@ -25,7 +25,6 @@ class TeamTest extends TestCase
     public function ItCanAddMembers()
     {
         $team = factory(Team::class)->create();
-
         $user = factory(User::class)->create();
         $user2 = factory(User::class)->create();
 
@@ -39,7 +38,6 @@ class TeamTest extends TestCase
     public function ItCanAddMultipleMembersAtOnce()
     {
         $team = factory(Team::class)->create();
-
         $users = factory(User::class, 2)->create();
 
         $team->add($users);
@@ -52,10 +50,10 @@ class TeamTest extends TestCase
     {
         $team = factory(Team::class)->create(['size' => 2]);
 
-        $user1 = factory(User::class)->create();
+        $user = factory(User::class)->create();
         $user2 = factory(User::class)->create();
 
-        $team->add($user1);
+        $team->add($user);
         $team->add($user2);
 
         $this->assertEquals(2, $team->count());
@@ -70,12 +68,39 @@ class TeamTest extends TestCase
     /** @test */
     public function ItCanRemoveMember()
     {
+        $team = factory(Team::class)->create(['size' => 2]);
+        $users = factory(User::class, 2)->create();
 
+        $team->add($users);
+
+        $team->remove($users[0]);
+
+        $this->assertEquals(1, $team->count());
+    }
+    
+    /** @test */
+    public function ItCanRemoveMoreThanOneMemberAtOnce()
+    {
+        $team = factory(Team::class)->create(['size' => 3]);
+        $users = factory(User::class, 3)->create();
+
+        $team->add($users);
+
+        $team->remove($users->slice(0, 2));
+
+        $this->assertEquals(1, $team->count());
     }
 
     /** @test */
-    public function ItCanRemoveAllMembers()
+    public function ItCanRemoveAllMembersAtOnce()
     {
+        $team = factory(Team::class)->create(['size' => 2]);
+        $users = factory(User::class, 2)->create();
 
+        $team->add($users);
+
+        $team->restart();
+
+        $this->assertEquals(0, $team->count());
     }
 }
