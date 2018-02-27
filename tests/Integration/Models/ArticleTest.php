@@ -5,12 +5,13 @@ namespace Tests\Integraton\Models;
 use App\Article;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 
 class ArticleTest extends TestCase
 {
-//    use DatabaseTransactions;
+    use DatabaseTransactions;
 
     /** @test */
     public function itFetchesTrendingArticles()
