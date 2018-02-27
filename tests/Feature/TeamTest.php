@@ -103,4 +103,14 @@ class TeamTest extends TestCase
 
         $this->assertEquals(0, $team->count());
     }
+
+    /** @test */
+    public function whenAddingManyMembersAtOnceYouStillMayNotExceedTheTeamMaxSize()
+    {
+        $team = factory(Team::class)->create(['size' => 2]);
+        $users = factory(User::class, 3)->create();
+
+        $this->expectException('Exception');
+        $team->add($users);
+    }
 }
